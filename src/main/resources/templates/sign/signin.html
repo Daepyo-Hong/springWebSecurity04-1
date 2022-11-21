@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="layout/default :: commonHead"/>
+</head>
+<body>
+<th:block th:insert="~{layout/default :: menu}"/>
+	<hr>
+	<p>로그인 페이지 입니다.</p>
+	<div th:if="${param.signup}">회원가입을 환영합니다. 로그인 후 이용 가능합니다.</div>
+	<div th:if="${param.logout}">You hava been logged out</div>
+	<div th:if="${param.error}">
+		[[${session["SPRING_SECURITY_LAST_EXCEPTION"].message}]]
+	</div>
+
+	<form action="/signin" method="post">
+		<div>
+			<input type="text" name="email" placeholder="아이디 또는 이메일">
+			<!-- 여기 정보들이 MySecurityConfig의 정보랑 똑같아야함 usernamepassword -->
+		</div>
+		<div>
+			<input type="password" name="pass" placeholder="비밀번호">
+			<!-- 여기 정보들이 MySecurityConfig의 정보랑 똑같아야함 usernamepassword Parameter -->
+		</div>
+		<div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				   th:value="${_csrf.token}"/>
+			<button>로그인</button>
+		</div>
+
+	</form>
+	<!--기본적으로 security에서 제공하는 로그인URL입니다.-->
+	<a href="/oauth2/authorization/google">구글로그인</a>
+</body>
+</html>
